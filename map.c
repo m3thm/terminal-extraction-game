@@ -1,5 +1,6 @@
 #include "map.h"
 #include <stdlib.h>
+#include <stddef.h>
 
 int initMap(Map *map, int N)
 {
@@ -50,7 +51,7 @@ int isWithinBounds(const Map *map, int row, int col)
 int getCellType(const Map *map, int row, int col, CellType *out)
 {
     if (!out || !isWithinBounds(map, row, col)) return 0;
-    *out = m->grid[row][col];
+    *out = map->grid[row][col];   
     return 1;
 }
 
@@ -64,13 +65,13 @@ int setCellType(Map *map, int row, int col, CellType type)
 int isCellEmpty(const Map *map, int row, int col)
 {
     if (!isWithinBounds(map, row, col)) return 0;
-    return  map->grid[row][col] == EMPTY
+    return  map->grid[row][col] == EMPTY;
 }
 
 int isCellWall(const Map *map, int row, int col)
 {
     if (!isWithinBounds(map, row, col)) return 0;
-    return  map->grid[row][col] == WALL
+    return  map->grid[row][col] == WALL;
 }
 
 void fillMap(Map *map, CellType type)
@@ -105,7 +106,7 @@ int findRandomEmpty(const Map *map, int *out_row, int *out_col)
 
     int emptyCount = 0;
     for (int i = 0; i < totalCells; i++) {
-        if (map->data[i] == CELL_EMPTY) {
+        if (map->data[i] == EMPTY) {
             empty[emptyCount++] = i;
         }
     }
