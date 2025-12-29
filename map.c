@@ -136,3 +136,15 @@ int placeRandom(Map *map, CellType type, int count)
     }
     return placed;
 }
+
+char cellToChar(CellType type)
+{
+    switch (type) {
+        case EMPTY:      return '.';
+        case WALL:       return '#';
+        case INTEL:      return 'I';
+        case LIFE:       return 'L';
+        case EXTRACTION: return 'X';
+        default:              return '?';
+    }
+}
