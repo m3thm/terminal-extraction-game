@@ -2,7 +2,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <stdio.h>     
+#include <stdio.h>
+#include "common.h"
 #include "map.h"
 #include "player.h"
 
