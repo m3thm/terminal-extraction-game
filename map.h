@@ -37,61 +37,61 @@ typedef struct {
  *  to each cell on the grid.
  *  Returns 1 if succesful, 0 if failed.
  * */
-int initMap(Map *m, int N);
+int initMap(Map *map, int N);
 
 /*
  *  Frees all memory that was associated with the map. Then sets the data structures to NULL.
  * */
-void freeMapData(Map *m);
+void freeMapData(Map *map);
 
 /*
  *  Returns 1 if the cell at row and col are within map bounds, 0 if otherwise.
  * */
-int isWithinBounds(const Map *m, int row, int col);
+int isWithinBounds(const Map *map, int row, int col);
 
 /*
  *  Get the cell type of the cell at row and col. 
  *  Return 1 if succesful, 0 if otherwise.
  * */
-int getCellType(const Map *m, int row, int col, CellType *out);
+int getCellType(const Map *map, int row, int col, CellType *out);
 
 /*
  *  Set the cell type of the cell at row and col.
  *  Return 1 if succesful, 0 if otherwise.
  * */
-int setCellType(Map *m, int row, int col, CellType type);
+int setCellType(Map *map, int row, int col, CellType type);
 
 /*
  *  Checks if the cell is an empty cell.
  *  Return 1 if true, 0 if false.
  * */
-int isCellEmpty(const Map *m, int row, int col);
+int isCellEmpty(const Map *map, int row, int col);
 
 /*
  *  Checks if the cell is a Wall.
  *  Return 1 if true, 0 if false.
  * */
-int isCellWall(const Map *m, int row, int col);
+int isCellWall(const Map *map, int row, int col);
 
 /*
  *  Fill the entire map with a single cell type.
  * */
-void fillMap(Map *m, CellType type);
+void fillMap(Map *map, CellType type);
 
 /*
  *  Count how many cells exist inside the grid of a given cell type.
  * */
-int countCellType(const Map *m, CellType type);
+int countCellType(const Map *map, CellType type);
 
 /*
  *  Find a random empty cell inside the map. Write out it's coordinates to out_row and out_col.
  * */
-int findRandomEmpty(const Map *m, int *out_row, int *out_col);
+int findRandomEmpty(const Map *map, int *out_row, int *out_col);
 
 /*
  *  Place some amount of cells on the map at random, determined by count.
  * */
-int placeRandom(Map *m, CellType type, int count);
+int placeRandom(Map *map, CellType type, int count);
 
 /*
  *  Convert a given cell type to its display character.
