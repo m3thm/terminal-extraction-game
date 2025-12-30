@@ -10,6 +10,8 @@
 static struct termios original_termios;
 static int raw_mode_enabled = 0;
 
+static void disable_raw_mode(void);
+
 /*
  * Enables raw mode:
  * - ICANON off: no line buffering (input arrives instantly)
@@ -62,7 +64,7 @@ void clear_screen()
 }
 
 /* Read one byte from stdin (raw mode makes this immediate) */
-static int read_key()
+int read_key()
 {
     unsigned char c;
     ssize_t n = read(STDIN_FILENO, &c, 1);
@@ -74,7 +76,7 @@ static int read_key()
 /* Convert character to Command */
 static Command parse_key(int key)
 {
-    if (key < 0) return CMD_INVALID;
+    if (key < 0) return INVALID;
 
     char ch = (char)toupper((unsigned char)key);
 
