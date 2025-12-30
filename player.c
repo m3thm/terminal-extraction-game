@@ -14,7 +14,7 @@ void initPlayer(Player *player, char symbol, PlayerType type,
     player->active = 1;
 }
 
-void deactivatePlayer(Player *p)
+void deactivatePlayer(Player *player)
 {
     if (!player) return;
     player->active = 0;

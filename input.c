@@ -49,20 +49,20 @@ int initInput()
     return raw_mode_enabled ? 1 : 0;
 }
 
-void shutdownInput
+void shutdownInput()
 {
     disable_raw_mode();
 }
 
 /* ANSI clear + cursor home */
-void clear_screen(void)
+void clear_screen()
 {
     printf("\033[2J\033[H");
     fflush(stdout);
 }
 
 /* Read one byte from stdin (raw mode makes this immediate) */
-static int read_key(void)
+static int read_key()
 {
     unsigned char c;
     ssize_t n = read(STDIN_FILENO, &c, 1);
