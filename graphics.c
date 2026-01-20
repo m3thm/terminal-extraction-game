@@ -66,30 +66,42 @@ static inline int cellIndex(const GraphicsBuffer *gfx, int x, int y)
  *
  * */
 
-static inline void markDirty(GraphicsBuffer *gfx, int idx) {
-    int byteIndex = idx >> 3 // idx / 8; 
-    int bitIndex  = idx & 7 // idx % 8;       
+/*
+ * Creating a Mask using the BitIndex.
+ * the mask in this case is an array of 8 bits (00000100) corresponding to a byte in the frame buffer. in this mask only the bit that corresponds to the bit index is 1, 
+ * and the rest is 0. (for example BitIndex = 1 -> 00000010, BitIndex = 3 -> 00001000). this is useful for updating the frame buffer. this mask is created using
+ * (1u << bitIndex) we left shift 1u (00000001) by a bitIndex amount. we must also cast it to an unsigned char because (1u << bitIndex) is natively an unsigned integer. 
+ *
+ * */
+
+static inline void markDirty(GraphicsBuffer *gfx, int idx) { //mark a specific cell as dirty. 
+    int byteIndex = idx >> 3
+    int bitIndex  = idx & 7      
     
     unsigned char mask = (unsigned char)(1u << bitIndex);
-    gfx->dirtyBits[byteIndex] = gfx->dirtyBits[byteIndex] | mask;
+    gfx->dirtyBits[byteIndex] |= mask; //bitwise or is used so that only the bit we want to update gets updated inside the frame buffer.
 
-    if (idx < gfx->firstDirty) gfx->firstDirty = idx;
-    if (idx > gfx->lastDirty)  gfx->lastDirty  = idx;
+    if (idx < gfx->firstDirty) gfx->firstDirty = idx; //this function also updates the first and last dirty bits. these are used to create a range of dirty bits.
+    if (idx > gfx->lastDirty)  gfx->lastDirty  = idx; //the engine only scans for cells within this range for efficiency.
 }
 
-static inline bool isDirty(const GraphicsBuffer *gfx, int idx) {
+static inline bool isDirty(const GraphicsBuffer *gfx, int idx) { ///check if cell is dirty
     int byteIndex = idx / 8;
     int bitIndex  = idx % 8;
     
     unsigned char mask = (unsigned char)(1u << bitIndex);
-    return (gfx->dirtyBits[byteIndex] & mask) != 0;
+    return (gfx->dirtyBits[byteIndex] & mask) != 0; //returns 1 if both bits inside the frame buffer and mask are 1.
 }
 
-static inline void clearDirty(GraphicsBuffer *gfx, int idx) {
+static inline void clearDirty(GraphicsBuffer *gfx, int idx) { //marks a cell as not dirty
     int byteIndex = idx / 8;
     int bitIndex  = idx % 8;
     
     unsigned char mask = (unsigned char)(1u << bitIndex);
-    gfx->dirtyBits[byteIndex] = gfx->dirtyBits[byteIndex] & ~mask;
+    gfx->dirtyBits[byteIndex] &= ~mask; // ~ means invert the mask. bitwise and keeps the rest of the bits as is and sets the bit to 0 inside the frame buffer. 
     
 }
+
+
+
+
